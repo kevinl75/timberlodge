@@ -6,7 +6,7 @@
 	import { itemsService } from "$lib/stores/items.svelte";
 	import { ItemTypeEnum, type IItem } from "../../models/Item";
 
-    let isDialogOpen: boolean = $state(false);
+	let isDialogOpen: boolean = $state(false);
 	let itemContent: string = $state("");
 	let placeholder: string = $state("Your new tasks.");
 	let newItemType: ItemTypeEnum = $state(ItemTypeEnum.TASK);
@@ -35,7 +35,7 @@
 		};
 		itemsService.addItem(newItem);
 		itemContent = "";
-        isDialogOpen = !isDialogOpen;
+		isDialogOpen = !isDialogOpen;
 	}
 	const animation =
 		"transition transition-discrete opacity-0 translate-y-[100px] starting:data-[state=open]:opacity-0 starting:data-[state=open]:translate-y-[100px] data-[state=open]:opacity-100 data-[state=open]:translate-y-0";
@@ -44,7 +44,7 @@
 <button
 	class="rounded preset-filled-secondary-200-800 px-4 py-2 hover:preset-filled-secondary-800-200"
 	type="submit"
-    onclick={() => isDialogOpen = !isDialogOpen}
+	onclick={() => (isDialogOpen = !isDialogOpen)}
 >
 	New Item
 </button>
@@ -63,12 +63,11 @@
 				</header>
 				<Dialog.Description>
 					<div>
-                        <span class="label-text mb-1">Choose your item type:</span>
+						<span class="mb-1 label-text">Choose your item type:</span>
 						<div
-							class="max-w-fit max-h-fit rounded-md preset-filled-secondary-200-800 mb-4 p-2 pb-1"
+							class="mb-4 max-h-fit max-w-fit rounded-md preset-filled-secondary-200-800 p-2 pb-1"
 							id="newItemsIcons"
 						>
-                            
 							<button
 								onclick={() => chooseItemType(ItemTypeEnum.TASK)}
 								class="rounded-md {newItemType == ItemTypeEnum.TASK
@@ -94,9 +93,9 @@
 								<Minus class="size-10 p-2" />
 							</button>
 						</div>
-                        <span class="label-text mb-1">Description:</span>
+						<span class="mb-1 label-text">Description:</span>
 						<input
-							class="w-full appearance-none rounded bg-gray-200 px-4 py-2 text-gray-900 focus:outline-none mb-4"
+							class="mb-4 w-full appearance-none rounded bg-gray-200 px-4 py-2 text-gray-900 focus:outline-none"
 							type="text"
 							bind:value={itemContent}
 							{placeholder}
@@ -104,16 +103,14 @@
 					</div>
 				</Dialog.Description>
 				<footer class="flex justify-end gap-2">
-					<button 
-                        type="button"
-                        class="btn preset-filled"
-                        onclick={() => isDialogOpen = !isDialogOpen}
-                    >Cancel</button>
-                    <button 
-                        type="button"
-                        class="btn preset-filled"
-                        onclick={() => createNewItem()}
-                    >Save</button>
+					<button
+						type="button"
+						class="btn preset-filled"
+						onclick={() => (isDialogOpen = !isDialogOpen)}>Cancel</button
+					>
+					<button type="button" class="btn preset-filled" onclick={() => createNewItem()}
+						>Save</button
+					>
 				</footer>
 			</Dialog.Content>
 		</Dialog.Positioner>

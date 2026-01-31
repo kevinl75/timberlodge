@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { signOut } from "firebase/auth";
 	import { AppBar } from "@skeletonlabs/skeleton-svelte";
-	import { CalendarIcon, CircleUserIcon, MenuIcon, SearchIcon } from "lucide-svelte";
+	import { CalendarIcon, CircleUserIcon, SearchIcon } from "lucide-svelte";
 
 	import { resolve } from "$app/paths";
 	import { goto } from "$app/navigation";
+	import logo from "$lib/assets/logo/logo-128.png";
 	import { authService, authFirebaseApp } from "$lib/stores/auth.svelte";
 
 	async function handleLogout() {
@@ -20,12 +21,11 @@
 <AppBar class="preset-filled-secondary-200-800">
 	<AppBar.Toolbar class="grid-cols-[auto_1fr_auto]">
 		<AppBar.Lead>
-			<button type="button" class="btn-icon btn-icon-lg hover:preset-tonal">
-				<MenuIcon />
-			</button>
+			<img alt="website logo" src={logo} class="ml-4 h-15 w-15" />
 		</AppBar.Lead>
 		<AppBar.Headline>
-			<p class="text-2xl"><a href={resolve("/")}>Bujo App</a></p>
+			<p class="text-3xl"><a href={resolve("/")}>TimberLodge</a></p>
+			<p class="text-l"><a href={resolve("/")}>Your cosy place to organize your mind</a></p>
 		</AppBar.Headline>
 		<AppBar.Trail>
 			<button type="button" class="btn-icon py-3 hover:preset-tonal">
