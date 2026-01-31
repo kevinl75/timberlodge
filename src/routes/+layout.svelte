@@ -1,7 +1,7 @@
 <script lang="ts">
 	import "./layout.css";
 	import { onMount } from "svelte";
-	import favicon from "$lib/assets/favicon.svg";
+	import favicon from "$lib/assets/logo/logo-64.png";
 	import NavBar from "$lib/components/NavBar.svelte";
 	import { initAuth } from "$lib/stores/auth.svelte";
 
