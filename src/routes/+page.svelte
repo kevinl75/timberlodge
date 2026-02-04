@@ -2,7 +2,7 @@
 	import { resolve } from "$app/paths";
 	import { goto } from "$app/navigation";
 
-	import Welcome from "$lib/components/Welcome.svelte";
+	import WelcomeHero from "$lib/components/WelcomeHero.svelte";
 	import { authService } from "$lib/stores/auth.svelte";
 
 	$effect(() => {
@@ -15,5 +15,5 @@
 </script>
 
 {#if !authService.isAuthenticated && !authService.isInitializing}
-	<Welcome />
+	<WelcomeHero />
 {/if}
