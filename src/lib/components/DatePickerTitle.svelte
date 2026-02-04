@@ -19,19 +19,21 @@
 	}
 </script>
 
-<div class="flex grow items-center justify-between">
-	<button onclick={() => setSelectedDate(addDay(getSelectedDate(), -1))}>
-		<ChevronLeft class="ml-2 h-10 w-10" />
+<div class="flex size-min grow-2">
+	<button onclick={() => setSelectedDate(addDay(getSelectedDate(), -1))} class="mr-10">
+		<ChevronLeft size={24} />
 	</button>
 	<div class="flex items-center">
-		<h2 class="h3">{format(getSelectedDate(), dateFormat)}</h2>
+		<div class="mr-4">
+			<p class="text-base">{format(getSelectedDate(), dateFormat)}</p>
+		</div>
 		<DatePicker bind:isOpen onDateChange={setDateFromDatePicker}>
-			<button onclick={toggleDatePicker} class="ml-4">
-				<CalendarDays class="h-12 w-12 p-2" />
+			<button onclick={toggleDatePicker}>
+				<CalendarDays class="h-7 w-7 pt-1" />
 			</button>
 		</DatePicker>
 	</div>
-	<button onclick={() => setSelectedDate(addDay(getSelectedDate(), 1))}>
-		<ChevronRight class="mr-2 h-10 w-10" />
+	<button onclick={() => setSelectedDate(addDay(getSelectedDate(), 1))} class="ml-10">
+		<ChevronRight size={24} />
 	</button>
 </div>

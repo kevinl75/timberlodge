@@ -26,8 +26,8 @@
 </script>
 
 <div>
-	<h2 class="mb-4 h2">Login</h2>
-	<div class="rounded-md preset-filled-surface-400-600 p-5">
+	<h2 class="h2 mb-4">Login</h2>
+	<div class="preset-filled-surface-400-600 rounded-md p-5">
 		<div class="grid grid-cols-2 divide-x-2 divide-solid">
 			<form class="pr-10" onsubmit={handleLogin}>
 				<div class="mb-6">
@@ -52,7 +52,7 @@
 					<p class="mb-6 text-red-400">{errorMessage}</p>
 				{/if}
 				<button
-					class="rounded preset-filled-secondary-200-800 px-4 py-2 hover:preset-filled-secondary-800-200"
+					class="preset-filled-secondary-200-800 hover:preset-filled-secondary-800-200 rounded px-4 py-2"
 					type="submit"
 				>
 					Sign In
@@ -61,7 +61,7 @@
 			<div class="m-auto">
 				<p>Create a new account?</p>
 				<button
-					class="mt-4 rounded preset-filled-secondary-200-800 px-4 py-2 hover:preset-filled-secondary-800-200"
+					class="preset-filled-secondary-200-800 hover:preset-filled-secondary-800-200 mt-4 rounded px-4 py-2"
 					type="submit"
 					onclick={() => goto(resolve("/auth/signup"))}
 				>
