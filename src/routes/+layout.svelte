@@ -12,9 +12,9 @@
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
-<main>
+<main class="h-screen w-screen bg-base-300">
 	<NavBar />
-	<div class="m-auto max-w-5xl object-top pt-10">
+	<div>
 		{@render children()}
 	</div>
 </main>

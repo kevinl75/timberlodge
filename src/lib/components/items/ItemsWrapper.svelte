@@ -6,7 +6,7 @@
 	let { selectedDate } = $props();
 </script>
 
-<div class="rounded-md preset-filled-surface-400-600 p-5">
+<div>
 	<NewItemDialog />
 	<div class="mt-5">
 		{#if !itemsService.isInitializing && itemsService.items.length > 0}

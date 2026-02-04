@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { Circle, Minus, Square, CircleCheckBig, SquareCheckBig, X, PenIcon } from "lucide-svelte";
+	import { Circle, Minus, Square, CircleCheckBig, SquareCheckBig, X } from "lucide-svelte";
 
 	import { itemsService } from "$lib/stores/items.svelte";
 	import { ItemTypeEnum, type IItem } from "../../models/Item";
 
 	let { item = $bindable() } = $props<{ item: IItem }>();
-	let isEdited: boolean = $state(false);
 
 	function setToDone(itemToUpdate: IItem) {
 		itemToUpdate.isDone = !itemToUpdate.isDone;
@@ -17,37 +16,24 @@
 	}
 </script>
 
-<div class="group/sub my-2 flex items-center card preset-filled-secondary-200-800 py-2">
-	<button onclick={() => setToDone(item)} class="ml-5 flex-none">
+<li class="list-row">
+	<button onclick={() => setToDone(item)} class="ml-4 flex-none rounded p-1 hover:bg-base-300">
 		{#if item.itemType == ItemTypeEnum.EVENT}
 			{#if item.isDone}
-				<CircleCheckBig />
+				<CircleCheckBig size={18} />
 			{:else}
-				<Circle />
+				<Circle size={18} />
 			{/if}
 		{:else if item.itemType == ItemTypeEnum.NOTE}
-			<Minus />
+			<Minus size={18} />
 		{:else if item.isDone}
-			<SquareCheckBig />
+			<SquareCheckBig size={18} />
 		{:else}
-			<Square />
+			<Square size={18} />
 		{/if}
 	</button>
-	{#if isEdited}
-		<input
-			class="w-full appearance-none rounded bg-gray-200 px-4 py-2 text-gray-900 focus:outline-none"
-			type="text"
-		/>
-	{:else}
-		<p class="mx-5 text-lg {item.isDone ? 'line-through' : ''} flex-1">{item.itemContent}</p>
-	{/if}
-	<button
-		onclick={() => (isEdited = !isEdited)}
-		class="mr-5 flex-none opacity-0 group-hover/sub:opacity-100"
-	>
-		<PenIcon />
+	<p class="mx-5 text-base {item.isDone ? 'line-through' : ''} flex-1">{item.itemContent}</p>
+	<button onclick={() => removeItem()} class="rounded p-1 hover:bg-base-300">
+		<X size={18} />
 	</button>
-	<button onclick={() => removeItem()} class="mr-5 flex-none opacity-0 group-hover/sub:opacity-100">
-		<X />
-	</button>
-</div>
+</li>

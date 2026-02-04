@@ -1,12 +1,10 @@
 <script lang="ts">
-	import { Dialog, Portal } from "@skeletonlabs/skeleton-svelte";
-
-	import { Square, Circle, Minus, XIcon } from "lucide-svelte";
+	import { Square, Circle, Minus } from "lucide-svelte";
 
 	import { itemsService } from "$lib/stores/items.svelte";
 	import { ItemTypeEnum, type IItem } from "../../models/Item";
 
-	let isDialogOpen: boolean = $state(false);
+	let isModalOpen: boolean = $state(false);
 	let itemContent: string = $state("");
 	let placeholder: string = $state("Your new tasks.");
 	let newItemType: ItemTypeEnum = $state(ItemTypeEnum.TASK);
@@ -35,84 +33,54 @@
 		};
 		itemsService.addItem(newItem);
 		itemContent = "";
-		isDialogOpen = !isDialogOpen;
+		isModalOpen = !isModalOpen;
 	}
-	const animation =
-		"transition transition-discrete opacity-0 translate-y-[100px] starting:data-[state=open]:opacity-0 starting:data-[state=open]:translate-y-[100px] data-[state=open]:opacity-100 data-[state=open]:translate-y-0";
 </script>
 
-<button
-	class="rounded preset-filled-secondary-200-800 px-4 py-2 hover:preset-filled-secondary-800-200"
-	type="submit"
-	onclick={() => (isDialogOpen = !isDialogOpen)}
->
-	New Item
-</button>
-<Dialog open={isDialogOpen}>
-	<Portal>
-		<Dialog.Backdrop class="fixed inset-0 z-50 bg-surface-50-950/50" />
-		<Dialog.Positioner class="fixed inset-0 z-50 flex items-center justify-center p-4">
-			<Dialog.Content
-				class="w-full max-w-xl space-y-4 card bg-surface-100-900 p-4 shadow-xl {animation}"
-			>
-				<header class="flex items-center justify-between">
-					<Dialog.Title class="text-lg font-bold">Create a new item</Dialog.Title>
-					<Dialog.CloseTrigger class="btn-icon hover:preset-tonal">
-						<XIcon class="size-4" />
-					</Dialog.CloseTrigger>
-				</header>
-				<Dialog.Description>
-					<div>
-						<span class="mb-1 label-text">Choose your item type:</span>
-						<div
-							class="mb-4 max-h-fit max-w-fit rounded-md preset-filled-secondary-200-800 p-2 pb-1"
-							id="newItemsIcons"
-						>
-							<button
-								onclick={() => chooseItemType(ItemTypeEnum.TASK)}
-								class="rounded-md {newItemType == ItemTypeEnum.TASK
-									? 'preset-filled-secondary-800-200'
-									: ''}"
-							>
-								<Square class="size-10 p-2" />
-							</button>
-							<button
-								onclick={() => chooseItemType(ItemTypeEnum.EVENT)}
-								class="rounded-md {newItemType == ItemTypeEnum.EVENT
-									? 'preset-filled-secondary-800-200'
-									: ''}"
-							>
-								<Circle class="size-10 p-2" />
-							</button>
-							<button
-								onclick={() => chooseItemType(ItemTypeEnum.NOTE)}
-								class="rounded-md {newItemType == ItemTypeEnum.NOTE
-									? 'preset-filled-secondary-800-200'
-									: ''}"
-							>
-								<Minus class="size-10 p-2" />
-							</button>
-						</div>
-						<span class="mb-1 label-text">Description:</span>
-						<input
-							class="mb-4 w-full appearance-none rounded bg-gray-200 px-4 py-2 text-gray-900 focus:outline-none"
-							type="text"
-							bind:value={itemContent}
-							{placeholder}
-						/>
-					</div>
-				</Dialog.Description>
-				<footer class="flex justify-end gap-2">
+<button class="btn" onclick={() => (isModalOpen = true)}> New Item </button>
+
+<dialog class="modal" class:modal-open={isModalOpen}>
+	<div class="modal-box text-left">
+		<h3 class="mb-4 text-lg font-bold">Want to add a new item?</h3>
+		<form>
+			<fieldset class="mb-2 fieldset">
+				<legend class="fieldset-legend">Choose your item type</legend>
+				<div
+					class="mb-4 max-h-fit max-w-fit rounded-md bg-primary p-2 pb-1 text-primary-content"
+					id="newItemsIcons"
+				>
 					<button
-						type="button"
-						class="btn preset-filled"
-						onclick={() => (isDialogOpen = !isDialogOpen)}>Cancel</button
+						onclick={() => chooseItemType(ItemTypeEnum.TASK)}
+						class="rounded-md {newItemType === ItemTypeEnum.TASK ? 'bg-primary-content' : ''}"
 					>
-					<button type="button" class="btn preset-filled" onclick={() => createNewItem()}
-						>Save</button
+						<Square class="size-10 p-2 {newItemType === ItemTypeEnum.TASK ? 'text-primary' : ''}" />
+					</button>
+					<button
+						onclick={() => chooseItemType(ItemTypeEnum.EVENT)}
+						class="rounded-md {newItemType === ItemTypeEnum.EVENT ? 'bg-primary-content' : ''}"
 					>
-				</footer>
-			</Dialog.Content>
-		</Dialog.Positioner>
-	</Portal>
-</Dialog>
+						<Circle
+							class="size-10 p-2 {newItemType === ItemTypeEnum.EVENT ? 'text-primary' : ''}"
+						/>
+					</button>
+					<button
+						onclick={() => chooseItemType(ItemTypeEnum.NOTE)}
+						class="rounded-md {newItemType === ItemTypeEnum.NOTE ? 'bg-primary-content' : ''}"
+					>
+						<Minus class="size-10 p-2 {newItemType === ItemTypeEnum.NOTE ? 'text-primary' : ''}" />
+					</button>
+				</div>
+			</fieldset>
+			<fieldset class="mb-2 fieldset">
+				<legend class="fieldset-legend">Give your new item a label</legend>
+				<input type="text" class="input" bind:value={itemContent} {placeholder} />
+			</fieldset>
+		</form>
+		<div class="modal-action">
+			<form method="dialog">
+				<button class="btn mr-4 btn-primary" onclick={() => createNewItem()}> Save </button>
+				<button class="btn btn-neutral" onclick={() => (isModalOpen = false)}> Close </button>
+			</form>
+		</div>
+	</div>
+</dialog>
