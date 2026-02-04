@@ -73,7 +73,6 @@ export const itemsService = {
 			).withConverter(itemConverter);
 			getDocs(inerItemCollection).then((querySnapshot) => {
 				querySnapshot.forEach((docSnapshot) => {
-					console.log(docSnapshot.data());
 					itemsState.items.push(docSnapshot.data());
 				});
 				itemsState.isInitializing = false;

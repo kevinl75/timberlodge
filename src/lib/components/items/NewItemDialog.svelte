@@ -3,6 +3,7 @@
 
 	import { itemsService } from "$lib/stores/items.svelte";
 	import { ItemTypeEnum, type IItem } from "../../models/Item";
+	import { selectedDatesService } from "$lib/stores/selectedDates.svelte";
 
 	let isModalOpen: boolean = $state(false);
 	let itemContent: string = $state("");
@@ -29,7 +30,7 @@
 			itemContent: itemContent,
 			itemType: newItemType,
 			isDone: false,
-			itemDate: new Date(),
+			itemDate: selectedDatesService.startDate,
 		};
 		itemsService.addItem(newItem);
 		itemContent = "";
