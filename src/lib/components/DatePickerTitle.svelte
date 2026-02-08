@@ -31,7 +31,12 @@
 				<p class="text-base">{selectedDatesService.formatStartDate()}</p>
 			{/if}
 		</div>
-		<DatePicker bind:isOpen onDateChange={setDateFromDatePicker} isRange={true}>
+		<DatePicker
+			bind:isOpen
+			onDateChange={setDateFromDatePicker}
+			isRange={true}
+			enableFutureDates={true}
+		>
 			<button onclick={toggleDatePicker}>
 				<CalendarDays class="h-7 w-7 pt-1" />
 			</button>

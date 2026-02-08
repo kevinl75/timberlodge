@@ -1,11 +1,15 @@
 <script lang="ts">
+	import { format } from "@formkit/tempo";
 	import { Square, Circle, Minus } from "lucide-svelte";
+	import { DatePicker } from "@svelte-plugins/datepicker";
 
 	import { itemsService } from "$lib/stores/items.svelte";
 	import { ItemTypeEnum, type IItem } from "../../models/Item";
-	import { selectedDatesService } from "$lib/stores/selectedDates.svelte";
+	import { type IDatePickerDate } from "$lib/stores/selectedDates.svelte";
 
 	let isModalOpen: boolean = $state(false);
+	let isOpen: boolean = $state(false);
+	let newItemDate: Date = $state(new Date());
 	let itemContent: string = $state("");
 	let placeholder: string = $state("Your new tasks.");
 	let newItemType: ItemTypeEnum = $state(ItemTypeEnum.TASK);
@@ -30,51 +34,77 @@
 			itemContent: itemContent,
 			itemType: newItemType,
 			isDone: false,
-			itemDate: selectedDatesService.startDate,
+			itemDate: newItemDate,
 		};
 		itemsService.addItem(newItem);
 		itemContent = "";
 		isModalOpen = !isModalOpen;
 	}
+
+	function toggleDatePicker() {
+		isOpen = !isOpen;
+	}
+
+	function setDateFromDatePicker(newDate: IDatePickerDate) {
+		newItemDate = new Date(newDate.startDate);
+	}
 </script>
 
-<button class="btn" onclick={() => (isModalOpen = true)}> New Item </button>
-
-<dialog class="modal" class:modal-open={isModalOpen}>
-	<div class="modal-box text-left">
-		<h3 class="mb-4 text-lg font-bold">Want to add a new item?</h3>
+<button class="btn {isModalOpen ? 'mb-2' : ''}" onclick={() => (isModalOpen = true)}>
+	New Item
+</button>
+{#if isModalOpen}
+	<div class="w-1/2 rounded-box bg-base-100 p-4">
+		<p class="mb-4 text-lg font-bold">Want to add a new item?</p>
 		<form>
-			<fieldset class="mb-2 fieldset">
-				<legend class="fieldset-legend">Choose your item type</legend>
-				<div
-					class="mb-4 max-h-fit max-w-fit rounded-md bg-primary p-2 pb-1 text-primary-content"
-					id="newItemsIcons"
-				>
-					<button
-						onclick={() => chooseItemType(ItemTypeEnum.TASK)}
-						class="rounded-md {newItemType === ItemTypeEnum.TASK ? 'bg-primary-content' : ''}"
+			<div class="mb-2 flex">
+				<fieldset class="fieldset flex-1">
+					<legend class="fieldset-legend">Choose your item type</legend>
+					<div
+						class="mb-4 max-h-fit max-w-fit rounded-md bg-primary p-2 pb-1 text-primary-content"
+						id="newItemsIcons"
 					>
-						<Square class="size-10 p-2 {newItemType === ItemTypeEnum.TASK ? 'text-primary' : ''}" />
-					</button>
-					<button
-						onclick={() => chooseItemType(ItemTypeEnum.EVENT)}
-						class="rounded-md {newItemType === ItemTypeEnum.EVENT ? 'bg-primary-content' : ''}"
-					>
-						<Circle
-							class="size-10 p-2 {newItemType === ItemTypeEnum.EVENT ? 'text-primary' : ''}"
+						<button
+							onclick={() => chooseItemType(ItemTypeEnum.TASK)}
+							class="rounded-md {newItemType === ItemTypeEnum.TASK ? 'bg-primary-content' : ''}"
+						>
+							<Square
+								class="size-10 p-2 {newItemType === ItemTypeEnum.TASK ? 'text-primary' : ''}"
+							/>
+						</button>
+						<button
+							onclick={() => chooseItemType(ItemTypeEnum.EVENT)}
+							class="rounded-md {newItemType === ItemTypeEnum.EVENT ? 'bg-primary-content' : ''}"
+						>
+							<Circle
+								class="size-10 p-2 {newItemType === ItemTypeEnum.EVENT ? 'text-primary' : ''}"
+							/>
+						</button>
+						<button
+							onclick={() => chooseItemType(ItemTypeEnum.NOTE)}
+							class="rounded-md {newItemType === ItemTypeEnum.NOTE ? 'bg-primary-content' : ''}"
+						>
+							<Minus
+								class="size-10 p-2 {newItemType === ItemTypeEnum.NOTE ? 'text-primary' : ''}"
+							/>
+						</button>
+					</div>
+				</fieldset>
+				<fieldset class="fieldset flex-1">
+					<legend class="fieldset-legend">Item date (default today)</legend>
+					<DatePicker bind:isOpen onDateChange={setDateFromDatePicker}>
+						<input
+							type="text"
+							placeholder="Select date"
+							value={format(newItemDate, "short")}
+							onclick={toggleDatePicker}
 						/>
-					</button>
-					<button
-						onclick={() => chooseItemType(ItemTypeEnum.NOTE)}
-						class="rounded-md {newItemType === ItemTypeEnum.NOTE ? 'bg-primary-content' : ''}"
-					>
-						<Minus class="size-10 p-2 {newItemType === ItemTypeEnum.NOTE ? 'text-primary' : ''}" />
-					</button>
-				</div>
-			</fieldset>
-			<fieldset class="mb-2 fieldset">
+					</DatePicker>
+				</fieldset>
+			</div>
+			<fieldset class="mb-2 fieldset w-full">
 				<legend class="fieldset-legend">Give your new item a label</legend>
-				<input type="text" class="input" bind:value={itemContent} {placeholder} />
+				<input type="text" class="input w-full" bind:value={itemContent} {placeholder} />
 			</fieldset>
 		</form>
 		<div class="modal-action">
@@ -84,4 +114,4 @@
 			</form>
 		</div>
 	</div>
-</dialog>
+{/if}

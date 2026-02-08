@@ -10,9 +10,12 @@ import {
 	setDoc,
 	doc,
 } from "firebase/firestore";
+import { format } from "@formkit/tempo";
 import { authService } from "./auth.svelte";
+import { SvelteMap } from "svelte/reactivity";
 import { type IItem } from "$lib/models/Item";
 import { firebaseConfig } from "$lib/config/firebaseConfig";
+import { selectedDatesService } from "./selectedDates.svelte";
 
 interface IItemsState {
 	userId: string;
@@ -139,5 +142,27 @@ export const itemsService = {
 		} else {
 			console.log("Error. No user authenticated.");
 		}
+	},
+	sortItemsByDate(ascending: boolean = true): IItem[] {
+		return itemsState.items.sort((a, b) => {
+			const timeA = a.itemDate.getTime();
+			const timeB = b.itemDate.getTime();
+			return ascending ? timeA - timeB : timeB - timeA;
+		});
+	},
+	returnItemAsMapPerDate(): SvelteMap<string, IItem[]> {
+		const sortedItemsDict = new SvelteMap<string, IItem[]>();
+		this.sortItemsByDate().forEach((item) => {
+			if (selectedDatesService.isDateBetween(item.itemDate)) {
+				const formatedDate = format(item.itemDate, "short");
+				if (!sortedItemsDict.has(formatedDate)) {
+					sortedItemsDict.set(formatedDate, [item]);
+				} else {
+					sortedItemsDict.get(formatedDate)?.push(item);
+				}
+			}
+		});
+		console.log(sortedItemsDict);
+		return sortedItemsDict;
 	},
 };
