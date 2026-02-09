@@ -4,9 +4,9 @@
 	import NewItemDialog from "./NewItemDialog.svelte";
 </script>
 
-<div>
+<div class="flex">
 	<NewItemDialog />
-	<div class="mt-5">
+	<div class="flex-2/3 pl-2">
 		{#if !itemsService.isInitializing}
 			<ItemsList />
 		{/if}
