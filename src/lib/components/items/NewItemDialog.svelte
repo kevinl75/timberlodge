@@ -84,7 +84,7 @@
 			</fieldset>
 			<fieldset class="fieldset flex-1">
 				<legend class="fieldset-legend">Item date (default today)</legend>
-				<DatePicker bind:isOpen onDateChange={setDateFromDatePicker}>
+				<DatePicker bind:isOpen onDateChange={setDateFromDatePicker} enableFutureDates={true}>
 					<input
 						type="text"
 						placeholder="Select date"
