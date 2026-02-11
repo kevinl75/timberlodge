@@ -49,13 +49,10 @@ export const selectedDatesService = {
 				(sameDay(date, selectedDatesService.endDate) ||
 					isBefore(date, selectedDatesService.endDate))
 			) {
-				console.log("Yes.");
 				return true;
 			}
-			console.log("No.");
 			return false;
 		}
-		console.log("Maybe.");
 		return sameDay(date, selectedDatesService.startDate);
 	},
 	formatStartDate(): string {

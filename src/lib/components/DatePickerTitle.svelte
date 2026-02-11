@@ -18,17 +18,23 @@
 </script>
 
 <div class="flex size-min grow-2">
-	<button onclick={() => selectedDatesService.shiftSelectedDates(-1)} class="mr-6">
-		<ChevronLeft size={24} />
+	<button
+		onclick={() => selectedDatesService.shiftSelectedDates(-1)}
+		class="mr-6 rounded-md bg-primary"
+	>
+		<ChevronLeft size={30} class="p-1 text-primary-content" />
 	</button>
+	<!-- <button onclick={() => selectedDatesService.shiftSelectedDates(-1)} class="mr-6">
+		<ChevronLeft size={24} />
+	</button> -->
 	<div class="flex items-center">
 		<div class="mr-4">
 			{#if selectedDatesService.endDate && selectedDatesService.startDate && !selectedDatesService.areSelectedDatesTheSame()}
-				<p class="text-base">
+				<p class="text-base font-bold">
 					{selectedDatesService.formatStartDate()} to {selectedDatesService.formatEndDate()}
 				</p>
 			{:else}
-				<p class="text-base">{selectedDatesService.formatStartDate()}</p>
+				<p class="text-base font-bold">{selectedDatesService.formatStartDate()}</p>
 			{/if}
 		</div>
 		<DatePicker
@@ -42,7 +48,10 @@
 			</button>
 		</DatePicker>
 	</div>
-	<button onclick={() => selectedDatesService.shiftSelectedDates(1)} class="ml-6">
-		<ChevronRight size={24} />
+	<button
+		onclick={() => selectedDatesService.shiftSelectedDates(1)}
+		class="ml-6 rounded-md bg-primary"
+	>
+		<ChevronRight size={30} class="p-1 text-primary-content" />
 	</button>
 </div>
