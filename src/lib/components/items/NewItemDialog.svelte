@@ -7,7 +7,7 @@
 	import { ItemTypeEnum, type IItem } from "../../models/Item";
 	import { type IDatePickerDate } from "$lib/stores/selectedDates.svelte";
 
-	let isModalOpen: boolean = $state(false);
+	let { handleIsNewItemPanelOpen } = $props();
 	let isOpen: boolean = $state(false);
 	let newItemDate: Date = $state(new Date());
 	let itemContent: string = $state("");
@@ -38,7 +38,6 @@
 		};
 		itemsService.addItem(newItem);
 		itemContent = "";
-		isModalOpen = !isModalOpen;
 	}
 
 	function toggleDatePicker() {
@@ -50,35 +49,42 @@
 	}
 </script>
 
-<div class="h-80 flex-1/3 rounded-box bg-base-100 p-3">
-	<p class="mb-4 text-lg font-bold">Want to add a new item?</p>
+<div class="rounded-box bg-base-100">
+	<p class="mb-4 text-lg font-bold">Add a new Item</p>
 	<form>
 		<div class="mb-2 flex">
 			<fieldset class="fieldset flex-1">
 				<legend class="fieldset-legend">Choose your item type</legend>
 				<div
-					class="max-h-fit max-w-fit rounded-md bg-primary p-2 pb-1 text-primary-content"
+					class="max-h-fit max-w-fit rounded-md bg-primary p-2 pb-1 font-bold text-primary-content"
 					id="newItemsIcons"
 				>
 					<button
 						onclick={() => chooseItemType(ItemTypeEnum.TASK)}
 						class="rounded-md {newItemType === ItemTypeEnum.TASK ? 'bg-primary-content' : ''}"
 					>
-						<Square class="size-10 p-2 {newItemType === ItemTypeEnum.TASK ? 'text-primary' : ''}" />
+						<Square
+							size={28}
+							class="p-1 {newItemType === ItemTypeEnum.TASK ? 'text-primary' : ''}"
+						/>
 					</button>
 					<button
 						onclick={() => chooseItemType(ItemTypeEnum.EVENT)}
-						class="rounded-md {newItemType === ItemTypeEnum.EVENT ? 'bg-primary-content' : ''}"
+						class="mx-2 rounded-md {newItemType === ItemTypeEnum.EVENT ? 'bg-primary-content' : ''}"
 					>
 						<Circle
-							class="size-10 p-2 {newItemType === ItemTypeEnum.EVENT ? 'text-primary' : ''}"
+							size={28}
+							class="p-1 {newItemType === ItemTypeEnum.EVENT ? 'text-primary' : ''}"
 						/>
 					</button>
 					<button
 						onclick={() => chooseItemType(ItemTypeEnum.NOTE)}
 						class="rounded-md {newItemType === ItemTypeEnum.NOTE ? 'bg-primary-content' : ''}"
 					>
-						<Minus class="size-10 p-2 {newItemType === ItemTypeEnum.NOTE ? 'text-primary' : ''}" />
+						<Minus
+							size={28}
+							class="p-1 {newItemType === ItemTypeEnum.NOTE ? 'text-primary' : ''}"
+						/>
 					</button>
 				</div>
 			</fieldset>
@@ -99,10 +105,8 @@
 			<input type="text" class="input w-full" bind:value={itemContent} {placeholder} />
 		</fieldset>
 	</form>
-	<div class="modal-action">
-		<form method="dialog">
-			<button class="btn mr-4 btn-primary" onclick={() => createNewItem()}> Save </button>
-			<button class="btn btn-neutral" onclick={() => (isModalOpen = false)}> Close </button>
-		</form>
+	<div class="flex justify-center">
+		<button class="btn mr-10 btn-primary" onclick={() => createNewItem()}> Save </button>
+		<button class="btn btn-neutral" onclick={() => handleIsNewItemPanelOpen()}> Close </button>
 	</div>
 </div>
