@@ -31,12 +31,12 @@
 	{/if}
 </ul>
 <ul class="list mt-2 rounded-box bg-base-100 shadow-md">
-	<li class="flex items-center p-4 tracking-wide">
+	<li class="p-4 tracking-wide">
 		<p class="grow-2 text-sm font-bold opacity-80">Your items</p>
 	</li>
 	{#if !selectedDatesService.areSelectedDatesTheSame()}
 		{#each itemsService.returnItemAsMapPerDate().keys() as itemDate (itemDate)}
-			<li class="flex items-center p-4 pb-2 tracking-wide">
+			<li class="p-4 pb-2 tracking-wide">
 				<p class="grow-2 text-sm opacity-80">{itemDate}</p>
 			</li>
 			{#each itemsService.returnItemAsMapPerDate().get(itemDate) as item (item.itemId)}
