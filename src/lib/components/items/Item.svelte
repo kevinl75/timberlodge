@@ -33,7 +33,6 @@
 		const itemToUpdate: IItem = item;
 		itemToUpdate.itemDate = new Date(newDate.startDate);
 		itemsService.updateItem(itemToUpdate);
-		// newItemDate = new Date(newDate.startDate);
 	}
 </script>
 
@@ -54,11 +53,7 @@
 		{/if}
 	</button>
 	<p class="mx-5 text-base {item.isDone ? 'line-through' : ''} flex-1">{item.itemContent}</p>
-	<DatePicker
-		bind:isOpen
-		onDateChange={rescheduleItem}
-		enableFutureDates={true}
-	>
+	<DatePicker bind:isOpen onDateChange={rescheduleItem} enableFutureDates={true}>
 		<div class="tooltip" data-tip="Reschedule">
 			<button onclick={toggleDatePicker} class="mr-2 p-1">
 				<CalendarDays size={18} />
