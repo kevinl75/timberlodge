@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {
+		Timer,
 		Circle,
 		Minus,
 		Square,
@@ -8,6 +9,8 @@
 		X,
 		CalendarDays,
 	} from "lucide-svelte";
+	import { resolve } from "$app/paths";
+	import { goto } from "$app/navigation";
 	import { DatePicker } from "@svelte-plugins/datepicker";
 	import { itemsService } from "$lib/stores/items.svelte";
 	import { ItemTypeEnum, type IItem } from "../../models/Item";
@@ -34,6 +37,11 @@
 		itemToUpdate.itemDate = new Date(newDate.startDate);
 		itemsService.updateItem(itemToUpdate);
 	}
+
+	function goToPodomoro() {
+		itemsService.selectedItem = item;
+		goto(resolve("/podomoro"));
+	}
 </script>
 
 <li class="list-row">
@@ -53,6 +61,11 @@
 		{/if}
 	</button>
 	<p class="mx-5 text-base {item.isDone ? 'line-through' : ''} flex-1">{item.itemContent}</p>
+	<div class="tooltip" data-tip="Podomoro">
+		<button onclick={() => goToPodomoro()} class="mr-2 p-1">
+			<Timer size={18} />
+		</button>
+	</div>
 	<DatePicker bind:isOpen onDateChange={rescheduleItem} enableFutureDates={true}>
 		<div class="tooltip" data-tip="Reschedule">
 			<button onclick={toggleDatePicker} class="mr-2 p-1">

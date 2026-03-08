@@ -21,12 +21,14 @@ interface IItemsState {
 	userId: string;
 	items: IItem[];
 	isInitializing: boolean;
+	selectedItem: IItem | null;
 }
 
 const itemsState = $state<IItemsState>({
 	userId: "",
 	items: [],
 	isInitializing: true,
+	selectedItem: null,
 });
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -64,6 +66,12 @@ export const itemsService = {
 	},
 	set items(items: IItem[]) {
 		itemsState.items = items;
+	},
+	set selectedItem(item: IItem) {
+		itemsState.selectedItem = item;
+	},
+	getSelectedItem() {
+		return itemsState.selectedItem;
 	},
 	async loadItemsFromFirestore() {
 		if (authService.isAuthenticated && authService.user?.uid) {
